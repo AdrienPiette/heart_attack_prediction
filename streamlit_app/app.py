@@ -5,7 +5,7 @@ st.set_page_config(page_title="Heart Disease Dashboard", page_icon="❤️", lay
 
 # Sidebar navigation menu
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Home", "Page 1", "Prediction"])
+page = st.sidebar.radio("Go to", ["Home", "Dashboard", "Prediction"])
 
 # Home Page
 if page == "Home":
@@ -14,7 +14,7 @@ if page == "Home":
     st.write("This is the home page where you can navigate to different pages.")
 
 # Page 1 (For Visualizations)
-elif page == "Page 1":
+elif page == "Dashboard":
     st.title("Heart Disease Analysis - Page 1")
     st.write("This is page 1 where you can explore heart disease data visualizations.")
     import page_1  # Content of page 1

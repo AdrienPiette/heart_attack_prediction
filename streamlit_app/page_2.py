@@ -15,13 +15,13 @@ def user_input_features():
     cp = st.selectbox('Chest Pain Type', ['ASY', 'NAP', 'ATA', 'TYP'])
     trestbps = st.slider('Resting Blood Pressure', 94, 200, 120)
     chol = st.slider('Cholesterol', 126, 564, 250)
-    fbs = st.selectbox('Fasting Blood Sugar', [0,1])
+    fbs = st.selectbox('Fasting Blood Sugar', [0, 1])
     restecg = st.selectbox('Resting ECG', ['Normal', 'ST', 'LVH'])
     thalach = st.slider('Max Heart Rate', 71, 202, 150)
     exang = st.selectbox('Exercise Induced Angina', ['Y', 'N'])
     oldpeak = st.slider('ST Depression', 0.0, 6.2, 3.0)
     slope = st.selectbox('Slope of Peak Exercise ST Segment', ['Up', 'Flat', 'Down'])
-    
+
     # Mapping categorical features using LabelEncoder
     input_data = {
         'Age': age,
@@ -36,6 +36,7 @@ def user_input_features():
         'Oldpeak': oldpeak,
         'ST_Slope': slope
     }
+    
     # Convert input into a pandas DataFrame for processing
     input_df = pd.DataFrame(input_data, index=[0])
     
@@ -49,19 +50,36 @@ def user_input_features():
 def predict_heart_disease():
     # Input data collection
     input_df = user_input_features()
-    
+
     # Display user input for review
     st.write("User Input Features:")
     st.write(input_df)
 
-    # Model prediction
-    prediction = model.predict(input_df)
+    # Add a button to trigger prediction
+    if st.button('Predict'):
+        # Model prediction
+        prediction = model.predict(input_df)
 
-    # Show prediction result
-    if prediction[0] == 1:
-        st.write("## Prediction: High Risk of Heart Disease 💔")
-    else:
-        st.write("## Prediction: Low Risk of Heart Disease 💪")
+        # Show prediction result
+        if prediction[0] == 1:
+            st.write("## Prediction: High Risk of Heart Disease 💔")
+        else:
+            st.write("## Prediction: Low Risk of Heart Disease 💪")
+
+# To retain the feature values after prediction, use session state
+if 'input_df' not in st.session_state:
+    st.session_state['input_df'] = None
+
+def retain_input_values():
+    if st.session_state['input_df'] is not None:
+        st.write("Retaining user inputs from the previous prediction:")
+        st.write(st.session_state['input_df'])
 
 # Call the function to display the prediction page
+if st.button("Submit Input"):
+    st.session_state['input_df'] = user_input_features()
+
+# Display the retained values
+retain_input_values()
+
 predict_heart_disease()

@@ -27,30 +27,4 @@ st.image("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bi
 # Add a call to action
 st.write("Fill in the form below to get your prediction! 🚀")
 
-# Sidebar navigation menu
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Home", "Dashboard", "Prediction"])
-
-# Home Page
-if page == "Home":
-    st.title("Heart Disease Dashboard - Home")
-    st.subheader("Welcome to the Heart Disease Dashboard")
-    st.write("This is the home page where you can navigate to different pages.")
-    st.write("Select a page from the sidebar to explore more!")
-
-# Page 1 (For Visualizations)
-elif page == "Dashboard":
-    st.title("Heart Disease Analysis - Dashboard")
-    st.write("This is page 1 where you can explore heart disease data visualizations.")
-    # Example of a visualization placeholder
-    st.write("Visualizations will be shown here.")
-    # Import page_1 only when the user selects the Dashboard page
-    import page_1  # Ensure this script exists
-
-# Prediction Page (Page 2)
-elif page == "Prediction":
-    st.title("Heart Disease Prediction")
-    st.write("Enter your health details in the form below to predict your risk of heart disease.")
-    # Import page_2 only when the user selects the Prediction page
-    import page_2  # Ensure this script exists
 

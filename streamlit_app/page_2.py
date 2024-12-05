@@ -13,11 +13,14 @@ st.title("Heart Disease Prediction")
 age = st.slider('Age', min_value=29, max_value=77, value=50)
 sex = st.selectbox('Sex', options=['Male', 'Female'])
 cp = st.selectbox('Chest Pain Type', options=['Typical Angina', 'Atypical Angina', 'Non-anginal Pain', 'Asymptomatic'])
-restecg = st.selectbox('Resting ECG', options=['Normal', 'ST-T Wave Abnormality', 'Left Ventricular Hypertrophy'])
-exang = st.selectbox('Exercise Angina', options=['Yes', 'No'])
-slope = st.selectbox('ST Slope', options=['Upsloping', 'Flat', 'Downsloping'])
+rest_bp = st.number_input('Resting Blood Pressure (mmHg)', min_value=80, max_value=200, value=120)
 chol = st.slider('Cholesterol', min_value=126, max_value=564, value=200)
-fbs = st.selectbox('Fasting Blood Sugar', options=['Yes', 'No'])
+fbs = st.selectbox('Fasting Blood Sugar > 120 mg/dL', options=['Yes', 'No'])
+restecg = st.selectbox('Resting ECG', options=['Normal', 'ST-T Wave Abnormality', 'Left Ventricular Hypertrophy'])
+max_hr = st.number_input('Max Heart Rate Achieved', min_value=60, max_value=202, value=150)
+exang = st.selectbox('Exercise Angina', options=['Yes', 'No'])
+oldpeak = st.number_input('ST Depression Induced by Exercise', min_value=0.0, max_value=6.2, value=1.0, step=0.1)
+slope = st.selectbox('ST Slope', options=['Upsloping', 'Flat', 'Downsloping'])
 
 # Encode categorical variables
 sex = 1 if sex == 'Male' else 0
@@ -30,17 +33,20 @@ slope_mapping = {'Upsloping': 0, 'Flat': 1, 'Downsloping': 2}
 slope = slope_mapping[slope]
 fbs = 1 if fbs == 'Yes' else 0
 
-# Prepare the input data for prediction
-input_data = pd.DataFrame({
-    'Age': [age],
-    'Sex': [sex],
-    'ChestPainType': [cp],
-    'RestingECG': [restecg],
-    'ExerciseAngina': [exang],
-    'ST_Slope': [slope],
-    'Cholesterol': [chol],
-    'FastingBS': [fbs]
-})
+# Prepare the input data in the correct order
+input_data = pd.DataFrame([{
+    'Age': age,
+    'Sex': sex,
+    'ChestPainType': cp,
+    'RestingBP': rest_bp,
+    'Cholesterol': chol,
+    'FastingBS': fbs,
+    'RestingECG': restecg,
+    'MaxHR': max_hr,
+    'ExerciseAngina': exang,
+    'Oldpeak': oldpeak,
+    'ST_Slope': slope
+}])
 
 # Apply the encoder to encode categorical features
 input_encoded = encoder.transform(input_data)
